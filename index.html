@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <h2>Online Store</h2>
+    <div class="container">
+        <div class="items">
+            <div class="row-1">
+                <div class="box-1">
+                    <div class="imgae">
+                        <img src="Assets/AC.jpg" alt="">
+                    </div>
+                    <div class="text">
+                        Air Conditoner
+                    </div>
+                    <div class="price">
+                        Price: $1000
+                    </div>
+                    <div class="button">
+                    <button class="add-to-cart" data-name="AC" data-price="1000" data-image="Assets/AC.jpg">Add to Cart</button>
+                    </div>
+
+                </div>
+                <div class="box-1">
+                    <div class="imgae">
+                        <img src="Assets/alexa.jpg" alt="">
+                    </div>
+                    <div class="text">
+                        Alexa
+                    </div>
+                    <div class="price">
+                        Price: $800
+                    </div>
+                    <div class="button">
+                        <button class="add-to-cart" data-name="Alexa" data-price="800" data-image="Assets/alexa.jpg">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="box-1">
+                    <div class="imgae">
+                        <img src="Assets/appliances.jpg" alt="">
+                    </div>
+                    <div class="text">
+                        appliances
+                    </div>
+                    <div class="price">
+                        Price: $50
+                    </div>
+                    <div class="button">
+                        <button class="add-to-cart" data-name="appliances" data-price="50" data-image="Assets/appliances.jpg">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+            <div class="row-2">
+                <div class="box-1">
+                    <div class="imgae">
+                        <img src="Assets/Earphone-1.jpg" alt="">
+                    </div>
+                    <div class="text" id="n">
+                        Earphones-1
+                    </div>
+                    <div class="price">
+                        Price: $25
+                    </div>
+                    <div class="button">
+                        <button class="add-to-cart" data-name="Earphone-1" data-price="25" data-image="Assets/Earphone-1.jpg">Add to Cart</button>
+                    </div>
+
+                </div>
+                <div class="box-1">
+                    <div class="imgae">
+                        <img src="Assets/oneplus-3.jpg" alt="">
+                    </div>
+                    <div class="text">
+                        oneplus-3
+                    </div>
+                    <div class="price">
+                        Price: $85
+                    </div>
+                    <div class="button">
+                        <button class="add-to-cart" data-name="oneplus-3" data-price="85" data-image="Assets/oneplus-3.jpg">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="box-1">
+                    <div class="imgae" id="image">
+                        <img src="Assets/speaker.jpg" alt="" id ="photo">
+                    </div>
+                    <div class="text" id="text">
+                       Speaker
+                    </div>
+                    <div class="price" id="price">
+                        Price: $750
+                    </div>
+                    <div class="button" id="btn">
+                        <button class="add-to-cart" data-name="Speaker" data-price="750" data-image="Assets/speaker.jpg">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="counter" id="contianer">
+            <div class="count"> <span id="item-count">0</span></div>
+            <div class="cart">Shopping Cart</div> <br><br><br>  <p><b>Total:</b> $<span id="cart-total">0</span></p>  
+            <ul id="cart-items"></ul>           
+    </div>
+    </div>
+
+    <!-- Javascript Code Start -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function(){
+            const addToCartButtons = document.querySelectorAll(".add-to-cart")
+            const cartItems = document.getElementById("cart-items")
+            const cartTotal = document.getElementById("cart-total")
+            const itemCount = document.getElementById("item-count")
+
+            let cart = []
+            let totalItemCount = 0
+
+            addToCartButtons.forEach((button) => {
+                button.addEventListener("click", function(){
+                    const name = button.getAttribute("data-name")
+                    const price = parseFloat(button.getAttribute("data-price"))
+                    const image = button.getAttribute("data-image")
+
+                    cart.push({name, price ,image})
+                    totalItemCount++
+                    updateCartUI()
+                })
+        })
+        cartItems.addEventListener("click", function(event){
+            if(event.target.classList.contains("remove-item")){
+                const itemIndex = event.target.getAttribute("data-index")
+                cart.splice(itemIndex, 1)
+                totalItemCount--
+                updateCartUI()
+            }
+        })
+ 
+        function updateCartUI(){
+            cartItems.innerHTML = ""
+            let total = 0
+
+            cart.forEach((item, index) => {
+                const listItem = document.createElement("li")
+                const image = document.createElement("img")
+                image.src = item.image
+                image.alt = item.name
+                listItem.appendChild(image)
+                listItem.innerHTML += `${item.name} - $${item.price}`
+                
+
+                const removeButton = document.createElement("button")
+                removeButton.className = "remove-item"
+                removeButton.setAttribute("data-index", index)
+                removeButton.textContent = "Remove"
+                listItem.appendChild(removeButton)
+
+                cartItems.appendChild(listItem)
+                total += item.price
+            })
+            cartTotal.innerText = total
+            itemCount.innerText = totalItemCount
+        }
+    })
+    </script>
+</body>
+
+
+</html>
